@@ -1,0 +1,18 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+FACEBOOK_ID	../tinder_ai.py	/^FACEBOOK_ID = '100000685561025'$/;"	kind:variable	line:18
+MOBILE_USER_AGENT	../tinder_ai.py	/^MOBILE_USER_AGENT = "Mozilla\/5.0 (Linux; U; en-gb; KFTHWI Build\/JDQ39) AppleWebKit\/535.19 (KHTML, like Gecko) Silk\/3.16 Safari\/535.19"$/;"	kind:variable	line:15
+access_token	../tinder_ai.py	/^            access_token = f.read()$/;"	kind:variable	line:61
+app	../tinder_ai.py	/^app = Flask(__name__)$/;"	kind:variable	line:72
+cors	../tinder_ai.py	/^cors = CORS(app, resources={r"\/api\/*": {"origins": "*"}})$/;"	kind:variable	line:73
+email	../tinder_ai.py	/^email = 'alex.mcclung@hotmail.com'$/;"	kind:variable	line:19
+get_access_token	../tinder_ai.py	/^def get_access_token(email, password):$/;"	kind:function	line:21
+hello_world	../tinder_ai.py	/^def hello_world():$/;"	kind:function	line:76
+save_access_token	../tinder_ai.py	/^def save_access_token():$/;"	kind:function	line:40
+session	../tinder_ai.py	/^        session = pynder.Session(facebook_id=FACEBOOK_ID, facebook_token=access_token)$/;"	kind:variable	line:64
+tinder_ai.py	../tinder_ai.py	1;"	kind:file	line:1
+without	../tinder_ai.py	/^def without(d, keys):$/;"	kind:function	line:46

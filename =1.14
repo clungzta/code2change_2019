@@ -1,0 +1,53 @@
+Collecting tensorflow
+  Downloading https://files.pythonhosted.org/packages/77/63/a9fa76de8dffe7455304c4ed635be4aa9c0bacef6e0633d87d5f54530c5c/tensorflow-1.13.1-cp36-cp36m-manylinux1_x86_64.whl (92.5MB)
+Collecting tensorflow-estimator<1.14.0rc0,>=1.13.0 (from tensorflow)
+  Downloading https://files.pythonhosted.org/packages/bb/48/13f49fc3fa0fdf916aa1419013bb8f2ad09674c275b4046d5ee669a46873/tensorflow_estimator-1.13.0-py2.py3-none-any.whl (367kB)
+Collecting protobuf>=3.6.1 (from tensorflow)
+  Downloading https://files.pythonhosted.org/packages/5a/aa/a858df367b464f5e9452e1c538aa47754d467023850c00b000287750fa77/protobuf-3.7.1-cp36-cp36m-manylinux1_x86_64.whl (1.2MB)
+Collecting grpcio>=1.8.6 (from tensorflow)
+  Downloading https://files.pythonhosted.org/packages/0a/9d/8bd5d0e516b196f59f1c4439b424b8d4fa62d492a4b531aae322d2d82a7b/grpcio-1.20.1-cp36-cp36m-manylinux1_x86_64.whl (2.1MB)
+Collecting keras-preprocessing>=1.0.5 (from tensorflow)
+  Downloading https://files.pythonhosted.org/packages/c0/bf/0315ef6a9fd3fc2346e85b0ff1f5f83ca17073f2c31ac719ab2e4da0d4a3/Keras_Preprocessing-1.0.9-py2.py3-none-any.whl (59kB)
+Collecting termcolor>=1.1.0 (from tensorflow)
+  Downloading https://files.pythonhosted.org/packages/8a/48/a76be51647d0eb9f10e2a4511bf3ffb8cc1e6b14e9e4fab46173aa79f981/termcolor-1.1.0.tar.gz
+Collecting absl-py>=0.1.6 (from tensorflow)
+  Downloading https://files.pythonhosted.org/packages/da/3f/9b0355080b81b15ba6a9ffcf1f5ea39e307a2778b2f2dc8694724e8abd5b/absl-py-0.7.1.tar.gz (99kB)
+Collecting gast>=0.2.0 (from tensorflow)
+  Downloading https://files.pythonhosted.org/packages/4e/35/11749bf99b2d4e3cceb4d55ca22590b0d7c2c62b9de38ac4a4a7f4687421/gast-0.2.2.tar.gz
+Collecting wheel>=0.26 (from tensorflow)
+  Downloading https://files.pythonhosted.org/packages/96/ba/a4702cbb6a3a485239fbe9525443446203f00771af9ac000fa3ef2788201/wheel-0.33.1-py2.py3-none-any.whl
+Collecting tensorboard<1.14.0,>=1.13.0 (from tensorflow)
+  Downloading https://files.pythonhosted.org/packages/0f/39/bdd75b08a6fba41f098b6cb091b9e8c7a80e1b4d679a581a0ccd17b10373/tensorboard-1.13.1-py3-none-any.whl (3.2MB)
+Collecting keras-applications>=1.0.6 (from tensorflow)
+  Downloading https://files.pythonhosted.org/packages/90/85/64c82949765cfb246bbdaf5aca2d55f400f792655927a017710a78445def/Keras_Applications-1.0.7-py2.py3-none-any.whl (51kB)
+Collecting numpy>=1.13.3 (from tensorflow)
+  Downloading https://files.pythonhosted.org/packages/c1/e2/4db8df8f6cddc98e7d7c537245ef2f4e41a1ed17bf0c3177ab3cc6beac7f/numpy-1.16.3-cp36-cp36m-manylinux1_x86_64.whl (17.3MB)
+Collecting six>=1.10.0 (from tensorflow)
+  Downloading https://files.pythonhosted.org/packages/73/fb/00a976f728d0d1fecfe898238ce23f502a721c0ac0ecfedb80e0d88c64e9/six-1.12.0-py2.py3-none-any.whl
+Collecting astor>=0.6.0 (from tensorflow)
+  Downloading https://files.pythonhosted.org/packages/35/6b/11530768cac581a12952a2aad00e1526b89d242d0b9f59534ef6e6a1752f/astor-0.7.1-py2.py3-none-any.whl
+Collecting mock>=2.0.0 (from tensorflow-estimator<1.14.0rc0,>=1.13.0->tensorflow)
+  Downloading https://files.pythonhosted.org/packages/e6/35/f187bdf23be87092bd0f1200d43d23076cee4d0dec109f195173fd3ebc79/mock-2.0.0-py2.py3-none-any.whl (56kB)
+Collecting setuptools (from protobuf>=3.6.1->tensorflow)
+  Downloading https://files.pythonhosted.org/packages/ec/51/f45cea425fd5cb0b0380f5b0f048ebc1da5b417e48d304838c02d6288a1e/setuptools-41.0.1-py2.py3-none-any.whl (575kB)
+Collecting werkzeug>=0.11.15 (from tensorboard<1.14.0,>=1.13.0->tensorflow)
+  Downloading https://files.pythonhosted.org/packages/18/79/84f02539cc181cdbf5ff5a41b9f52cae870b6f632767e43ba6ac70132e92/Werkzeug-0.15.2-py2.py3-none-any.whl (328kB)
+Collecting markdown>=2.6.8 (from tensorboard<1.14.0,>=1.13.0->tensorflow)
+  Downloading https://files.pythonhosted.org/packages/f5/e4/d8c18f2555add57ff21bf25af36d827145896a07607486cc79a2aea641af/Markdown-3.1-py2.py3-none-any.whl (87kB)
+Collecting h5py (from keras-applications>=1.0.6->tensorflow)
+  Downloading https://files.pythonhosted.org/packages/30/99/d7d4fbf2d02bb30fb76179911a250074b55b852d34e98dd452a9f394ac06/h5py-2.9.0-cp36-cp36m-manylinux1_x86_64.whl (2.8MB)
+Collecting pbr>=0.11 (from mock>=2.0.0->tensorflow-estimator<1.14.0rc0,>=1.13.0->tensorflow)
+  Downloading https://files.pythonhosted.org/packages/07/3e/22d1d35a4b51706ca3590c54359aeb5fa7ea60df46180143a3ea13d45f29/pbr-5.2.0-py2.py3-none-any.whl (107kB)
+Building wheels for collected packages: termcolor, absl-py, gast
+  Running setup.py bdist_wheel for termcolor: started
+  Running setup.py bdist_wheel for termcolor: finished with status 'done'
+  Stored in directory: /root/.cache/pip/wheels/7c/06/54/bc84598ba1daf8f970247f550b175aaaee85f68b4b0c5ab2c6
+  Running setup.py bdist_wheel for absl-py: started
+  Running setup.py bdist_wheel for absl-py: finished with status 'done'
+  Stored in directory: /root/.cache/pip/wheels/ee/98/38/46cbcc5a93cfea5492d19c38562691ddb23b940176c14f7b48
+  Running setup.py bdist_wheel for gast: started
+  Running setup.py bdist_wheel for gast: finished with status 'done'
+  Stored in directory: /root/.cache/pip/wheels/5c/2e/7e/a1d4d4fcebe6c381f378ce7743a3ced3699feb89bcfbdadadd
+Successfully built termcolor absl-py gast
+Installing collected packages: numpy, six, absl-py, pbr, mock, tensorflow-estimator, setuptools, protobuf, grpcio, keras-preprocessing, termcolor, gast, wheel, werkzeug, markdown, tensorboard, h5py, keras-applications, astor, tensorflow
+Successfully installed absl-py-0.7.1 astor-0.7.1 gast-0.2.2 grpcio-1.20.1 h5py-2.9.0 keras-applications-1.0.7 keras-preprocessing-1.0.9 markdown-3.1 mock-2.0.0 numpy-1.16.3 pbr-5.2.0 protobuf-3.7.1 setuptools-41.0.1 six-1.12.0 tensorboard-1.13.1 tensorflow-1.13.1 tensorflow-estimator-1.13.0 termcolor-1.1.0 werkzeug-0.15.2 wheel-0.33.1
