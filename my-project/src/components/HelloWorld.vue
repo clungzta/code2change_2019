@@ -19,9 +19,9 @@ div
     div(v-if="document.mode === 'text' || document.mode === 'speech'")
       el-input(v-model="document.text" type='textarea', :autosize='{ minRows: 2, maxRows: 4}', placeholder='Input statement')
     div(v-if="document.mode === 'emoticon'")
-      el-button.emoticonBtn(type='danger', @click="document.sentiment=-1", circle='') ☹️
-      el-button.emoticonBtn(type='warning', @click="document.sentiment=0", circle='') 😐
-      el-button.emoticonBtn(type='success', @click="document.sentiment=1", circle='') 🙂
+      el-button.emoticonBtn(type='danger', @click="document.sentiment=-1", :plain="checkEmoticonSentimentPlain(document, -1)" circle='') ☹️
+      el-button.emoticonBtn(type='warning', @click="document.sentiment=0", :plain="checkEmoticonSentimentPlain(document, 0)" circle='') 😐
+      el-button.emoticonBtn(type='success', @click="document.sentiment=1", :plain="checkEmoticonSentimentPlain(document, 1)" circle='') 🙂
 
     el-input.coordinateInput(v-model="document.lat" :disabled="true")
       template(slot='prepend') lat
@@ -143,6 +143,10 @@ export default {
       sample_item.mode = mode
       return sample_item
     },
+    checkEmoticonSentimentPlain (document, value) {
+      // return (document.sentiment !== value && document.sentiment !== null)
+      return document.sentiment !== value
+    },
     addVoiceStatement () {
       this.inputMode = 'speech'
       this.newDocumentDialogVisible = false
@@ -172,12 +176,6 @@ export default {
       this.map = L.map('mapid', { zoomControl:false }).setView([-33.81, 151.00], 11);
     },
     initLayers() {
-      // this.tileLayer = L.tileLayer('https://{s}.tile.thunderforest.com/transport-dark/{z}/{x}/{y}.png?apikey={apikey}', {
-      //   attribution: '&copy; <a href="http://www.thunderforest.com/">Thunderforest</a>, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-      //   apikey: '4d7d8e7a90c145eb9275653ce469a796',
-      //   maxZoom: 11
-      // });
-
       this.tileLayer = L.tileLayer(
         'https://cartodb-basemaps-{s}.global.ssl.fastly.net/rastertiles/voyager/{z}/{x}/{y}.png',
         {
