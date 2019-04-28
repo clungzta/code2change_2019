@@ -44,6 +44,9 @@ div
     span.dialog-footer(slot='footer')
       // el-button(@click='centerDialogVisible = false') Cancel
 
+  el-dialog(title='Speech Is Currently Recording...', :visible.sync='transcriptDialogVisible', width='30%')
+    span {{ latestTranscription }}
+
   loading(:active.sync='isLoading', :can-cancel='false', :is-full-page='true')
 
 </template>
@@ -88,6 +91,8 @@ export default {
       documentData: [],
       newDocumentDialogVisible: false,
       navigationDialogVisible: false,
+      transcriptDialogVisible: false,
+      latestTranscription: '',
       isLoading: false,
       projectOptions: [{
           value: 'Option1',
@@ -150,19 +155,21 @@ export default {
       // return (document.sentiment !== value && document.sentiment !== null)
       return document.sentiment !== value
     },
-    speechCB (success, testString) {
+    speechFinishedCB (success, testString) {
       let sample_item = this.generateSampleItem('text')
       if (success) {
         sample_item.text = testString
       }
+      this.transcriptDialogVisible = false
       this.documentData.push(sample_item)
     },
     addVoiceStatement () {
       this.inputMode = 'speech'
       this.newDocumentDialogVisible = false
+      this.transcriptDialogVisible = true
       console.log(this.speechCB)
       console.log(testSpeech)
-      testSpeech(this.speechCB)
+      this.latestTranscription = testSpeech(this.speechFinishedCB, this.latestTranscription)
     },
     addTextStatement () {
       this.newDocumentDialogVisible = false

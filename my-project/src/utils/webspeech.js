@@ -5,12 +5,10 @@ var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecogniti
 // var SpeechGrammarList = window.SpeechGrammarList || window.webkitSpeechGrammarList
 // var SpeechRecognitionEvent = window.SpeechRecognitionEvent || window.webkitSpeechRecognitionEvent
 
-export default function testSpeech (doneCB) {
+export default function testSpeech (doneCB, latestSpeechResult) {
   // speech starts transcribing immediately
   // doneCB is called when stopped
   console.log('At testSpeech()!')
-
-  var latestSpeechResult = ''
 
   var recognition = new SpeechRecognition()
   recognition.lang = 'en-US'
