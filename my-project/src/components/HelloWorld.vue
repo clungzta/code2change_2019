@@ -199,7 +199,16 @@ export default {
             if (feature.sentiment !== null) {
               console.log('adding')
               let marker = instance.statementToMarker(feature)
-              var myIcon = L.icon({iconUrl: 'https://img.icons8.com/dusk/64/000000/marker.png'});
+
+              if (feature.sentiment > 0.1) {
+                var myIcon = L.icon({iconUrl: require('@/assets/geo_green.png')});
+              }
+              else if (feature.sentiment < 0.1) {
+                var myIcon = L.icon({iconUrl: require('@/assets/geo_red.png')});
+              }
+              else {
+                var myIcon = L.icon({iconUrl: require('@/assets/geo_outline.png')});
+              }
               feature.leafletObject = L.marker(marker.coords, {icon:myIcon}).bindPopup(marker.name);
               feature.leafletObject.addTo(instance.map);
               // feature.leafletObject.removeFrom(this.map);
