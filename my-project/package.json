@@ -23,6 +23,7 @@
     "npm": "^6.4.1",
     "pug": "^2.0.3",
     "vue": "^2.5.2",
+    "vue-loading-overlay": "^3.2.0",
     "vue-router": "^3.0.1",
     "vue2-leaflet": "^2.1.1"
   },

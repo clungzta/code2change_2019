@@ -19,25 +19,32 @@ div
     div(v-if="document.mode === 'text' || document.mode === 'speech'")
       el-input(v-model="document.text" type='textarea', :autosize='{ minRows: 2, maxRows: 4}', placeholder='Input statement')
     div(v-if="document.mode === 'emoticon'")
-      el-button(type='success', @click="document.semtiment=1", icon='el-icon-check', circle='')
-      el-button(type='warning', @click="document.semtiment=0", icon='el-icon-star-off', circle='')
-      el-button(type='danger', @click="document.semtiment=-1", icon='el-icon-close', circle='')
+      el-button.emoticonBtn(type='danger', @click="document.sentiment=-1", circle='') ☹️
+      el-button.emoticonBtn(type='warning', @click="document.sentiment=0", circle='') 😐
+      el-button.emoticonBtn(type='success', @click="document.sentiment=1", circle='') 🙂
 
     el-input.coordinateInput(v-model="document.lat" :disabled="true")
       template(slot='prepend') lat
     el-input.coordinateInput(v-model="document.lon" :disabled="true")
       template(slot='prepend') lon
 
-    el-button(type="info" @click="submitStatement(document)" plain) Submit
+    el-button(v-show="!document.is_submitted" type="info" @click="submitStatement(document)" plain) Submit
 
   br
-  el-button(type='success', icon='el-icon-plus', circle='', @click='newDocumentDialogVisible = true')
+  el-button(v-show="!anyUnsubmittedStatements", type='success', icon='el-icon-plus', circle='', @click='newDocumentDialogVisible = true')
   el-button.clr-button(type="danger" @click="clearStatements()" plain) Clear All Statements
 
   el-dialog(title='Add a statement', :visible.sync='newDocumentDialogVisible', width='30%')
     el-button(type='info', icon='el-icon-microphone', circle='', @click='addTextStatement') Text Input
     el-button(type='info', icon='el-icon-microphone', circle='', @click='addVoiceStatement') Voice Input
     el-button(type='info', icon='el-icon-microphone', circle='', @click='addEmoticonStatement') Emoticon Input
+
+  el-dialog(title='Warning', :visible.sync='navigationDialogVisible', width='30%', center='')
+    span Submit all statements before continuing
+    span.dialog-footer(slot='footer')
+      // el-button(@click='centerDialogVisible = false') Cancel
+
+  loading(:active.sync='isLoading', :can-cancel='false', :is-full-page='true')
 
 </template>
 
@@ -48,18 +55,26 @@ div
 <script>
 
 import {LMap, LTileLayer, LMarker} from 'vue2-leaflet'
+// Import component
+import Loading from 'vue-loading-overlay';
+// Import stylesheet
+import 'vue-loading-overlay/dist/vue-loading.css';
+
 const axios = require('axios')
 const sampleDocumentDataItem = {
     text: "The quick brown fox",
     lat: -33.81,
-    lon: 151.00
+    lon: 151.00,
+    sentiment: null,
+    is_submitted: false
   }
 
 export default {
   components: {
     LMap,
     LTileLayer,
-    LMarker
+    LMarker,
+    Loading
   },
   name: 'HelloWorld',
   data () {
@@ -69,6 +84,8 @@ export default {
       inputMode: 'text',
       documentData: [],
       newDocumentDialogVisible: false,
+      navigationDialogVisible: false,
+      isLoading: false,
       projectOptions: [{
           value: 'Option1',
           label: 'Sydney Metro'
@@ -108,6 +125,11 @@ export default {
     },
     isEmoticonInputMode () {
       return this.inputMode === 'emoticon'
+    },
+    anyUnsubmittedStatements () {
+      // Returns true if any of the statements are unsubmitted
+      console.log(this.documentData.map(x => x.is_submitted))
+      return this.documentData.map(x => x.is_submitted).some(function(x){ !x })
     }
   },
   methods: {
@@ -116,7 +138,7 @@ export default {
     },
     generateSampleItem (mode) {
       let sample_item = Object.assign({}, sampleDocumentDataItem)
-      sample_item.lat = this.generateRandomNumber(-34.6, -33.6)
+      sample_item.lat = this.generateRandomNumber(-34.0, -33.6)
       sample_item.lon = this.generateRandomNumber(150.6, 151.3)
       sample_item.mode = mode
       return sample_item
@@ -135,6 +157,7 @@ export default {
       this.documentData.push(this.generateSampleItem('emoticon'))
     },
     statementToMarker (statement) {
+      console.log('sentiment', statement.sentiment)
       let marker = {
         name: 'Sentiment: ' + statement.sentiment,
         // name: 'Sentiment: ' + statement.sentiment,
@@ -146,7 +169,7 @@ export default {
       return marker
     },
     initMap () {
-      this.map = L.map('mapid').setView([-33.81, 151.00], 11);
+      this.map = L.map('mapid', { zoomControl:false }).setView([-33.81, 151.00], 11);
     },
     initLayers() {
       // this.tileLayer = L.tileLayer('https://{s}.tile.thunderforest.com/transport-dark/{z}/{x}/{y}.png?apikey={apikey}', {
@@ -158,7 +181,8 @@ export default {
       this.tileLayer = L.tileLayer(
         'https://cartodb-basemaps-{s}.global.ssl.fastly.net/rastertiles/voyager/{z}/{x}/{y}.png',
         {
-          maxZoom: 18,
+          minZoom: 11,
+          maxZoom: 11,
           attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, &copy; <a href="https://carto.com/attribution">CARTO</a>',
         }
       );
@@ -167,19 +191,31 @@ export default {
       let instance = this
       axios.get('http://localhost:4444/api/statements/')
         .then(function (response) {
+          console.log('Getting statements for map page')
           console.log(response.data)
 
           response.data.forEach((feature) => {
-            console.log(feature)
-            let marker = instance.statementToMarker(feature)
-            var myIcon = L.icon({iconUrl: 'https://img.icons8.com/dusk/64/000000/marker.png'});
-            feature.leafletObject = L.marker(marker.coords, {icon:myIcon}).bindPopup(marker.name);
-            feature.leafletObject.addTo(instance.map);
-            // feature.leafletObject.removeFrom(this.map);
+            console.log('Map feature', feature)
+            if (feature.sentiment !== null) {
+              console.log('adding')
+              let marker = instance.statementToMarker(feature)
+              var myIcon = L.icon({iconUrl: 'https://img.icons8.com/dusk/64/000000/marker.png'});
+              feature.leafletObject = L.marker(marker.coords, {icon:myIcon}).bindPopup(marker.name);
+              feature.leafletObject.addTo(instance.map);
+              // feature.leafletObject.removeFrom(this.map);
+            }
+            else {
+              console.log('not adding')
+            }
           })
         })
     },
     handleSelect (key, keyPath) {
+      // Before moving page, raise a warning if there are any unsubmitted statements
+      if (this.anyUnsubmittedStatements) {
+        navigationDialogVisible = true
+      }
+
       this.page = parseInt(key[0])
       console.log(key, keyPath)
 
@@ -192,16 +228,23 @@ export default {
 
       // axios.defaults.withCredentials = true
       let instance = this
+      instance.isLoading = true
       axios.post('http://localhost:4444/api/submit_statement/', {
           statement: statement
         })
         .then(function (response) {
           console.log(response)
           instance.getStatements()
+          instance.isLoading = false
+        })
+        .catch(function (error) {
+          console.error(error)
+          instance.isLoading = false
         })
     },
     getStatements () {
       let instance = this
+      console.log('Getting statements for public page')
       axios.get('http://localhost:4444/api/statements/')
         .then(function (response) {
           console.log(response.data)
@@ -247,6 +290,11 @@ export default {
   position: fixed;
   bottom:0%;
   right: 0%
+}
+
+.emoticonBtn {
+  /* font-weight: bold; */
+  font-size: 50px;
 }
 
 </style>

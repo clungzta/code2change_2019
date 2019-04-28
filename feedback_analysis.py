@@ -67,6 +67,9 @@ def get_statements():
     with open('statement_data.pkl', 'rb') as handle:
         statement_list = pickle.load(handle)
 
+    for statement in statement_list:
+        statement['is_submitted'] = True
+
     return jsonify(statement_list)
 
 @app.route('/api/statements/', methods=['DELETE'])
