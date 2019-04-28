@@ -59,6 +59,9 @@ import {LMap, LTileLayer, LMarker} from 'vue2-leaflet'
 import Loading from 'vue-loading-overlay';
 // Import stylesheet
 import 'vue-loading-overlay/dist/vue-loading.css';
+import testSpeech from '@/utils/webspeech.js';
+
+console.log(testSpeech)
 
 const axios = require('axios')
 const sampleDocumentDataItem = {
@@ -147,10 +150,19 @@ export default {
       // return (document.sentiment !== value && document.sentiment !== null)
       return document.sentiment !== value
     },
+    speechCB (success, testString) {
+      let sample_item = this.generateSampleItem('text')
+      if (success) {
+        sample_item.text = testString
+      }
+      this.documentData.push(sample_item)
+    },
     addVoiceStatement () {
       this.inputMode = 'speech'
       this.newDocumentDialogVisible = false
-      // TODO: record using google speech api
+      console.log(this.speechCB)
+      console.log(testSpeech)
+      testSpeech(this.speechCB)
     },
     addTextStatement () {
       this.newDocumentDialogVisible = false
